@@ -3940,7 +3940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrier: {fileID: 1924226722}
-  artifacts: 12
+  artifacts: 0
 --- !u!4 &2080773492
 Transform:
   m_ObjectHideFlags: 0
