@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (artifacts >=13)
+        if (artifacts >=11)
         {
             Destroy(barrier);
         }
