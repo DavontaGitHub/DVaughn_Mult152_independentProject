@@ -18,8 +18,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        // Find the Game Manager in the scene
         GameObject gameManagerObject = GameObject.Find("Game Manager");
-
         if (gameManagerObject != null)
         {
             gameManager = gameManagerObject.GetComponent<GameManager>();
@@ -30,6 +30,21 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // Handle mouse look
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        // Rotate the player left/right
+        transform.Rotate(0, mouseX, 0);
+
+        // Handle vertical rotation with clamping
+        rotationX -= mouseY;
+        rotationX = Mathf.Clamp(rotationX, -verticalRotationLimit, verticalRotationLimit);
+
+        // Rotate the camera up/down
+        Camera.main.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+
+        // Movement
         float moveDirectionX = Input.GetAxis("Horizontal");
         float moveDirectionZ = Input.GetAxis("Vertical");
 
@@ -52,11 +67,16 @@ public class PlayerController : MonoBehaviour
             velocity.y += gravity * Time.deltaTime;
         }
 
+        // Move the character controller
         controller.Move(velocity * Time.deltaTime);
+    }
 
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+    private void Die()
+    {
+       
 
-        transform.Rotate(0, mouseX, 0);
-        rotationX = Mathf.Clamp(rotationX, -verticalRotationLimit, verticalRotationLimit);
+        // Handle player death (e.g., disable player controls)
+        gameObject.SetActive(false); // Disable the player object
+        Invoke("Respawn", 2f); // Delay before respawning
     }
 }
